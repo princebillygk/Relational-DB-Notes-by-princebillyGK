@@ -125,9 +125,13 @@ Switch database inside psql promt:
 
 
 
+## Good Practice:
+
+1. Never use **money** type to store currency (it is left for historical reasons) neither use float or any float like data types (can give incorrect result sometime) rather use **int** or **numeric with forced 2 unit precision**.
+
 ## Querying: 
 
-General wrong use of query:
+#### Right or Wrongs:
 
 1. Aggregate function are not allowed in where clause:
 
@@ -146,4 +150,73 @@ General wrong use of query:
    | `WHERE` clause must not contain aggregate functions          | `HAVING` clause contains aggregate functions most of the time |
    | You can use `WHERE` without group by clause.                 | You cannot use `HAVING` without group by clause.             |
 
-   
+
+
+#### Creating Views: 
+
+We can create view to encapsulate details of a query. 
+
+```sql
+CREATE VIEW weather_with_cities 
+AS 
+  SELECT city, 
+         temp_lo, 
+         temp_hi, 
+         prcp, 
+         location date 
+  FROM   weather, 
+         cities 
+  WHERE  city = NAME; 
+```
+
+```sql
+SELECT * FROM weather_with_cities;
+```
+
+> Output:
+>
+> ```powershell
+>      city      | temp_lo | temp_hi | prcp |    date    
+> ---------------+---------+---------+------+------------
+>  San Francisco |      46 |      50 | 0.25 | 1994-11-27
+>  San Francisco |      41 |      55 |    0 | 1994-11-29
+>  San Francisco |      41 |      55 |    0 | 1994-11-29
+> ```
+
+We can also create views upon other views:
+
+```sql
+CREATE VIEW max_temp_city 
+AS 
+  SELECT * 
+  FROM   weather_with_cities 
+  WHERE  temp_hi = (SELECT Max(temp_hi) 
+                    FROM   weather); 
+```
+
+> Output:
+>
+> ```powershell
+>      city      | temp_lo | temp_hi | prcp |    date    | location  
+> ---------------+---------+---------+------+------------+-----------
+>  San Francisco |      41 |      55 |    0 | 1994-11-29 | (-194,53)
+> 
+> ```
+
+
+
+### Transaction: 
+
+> **Important!**
+
+Transaction is a way grouping of multiple statements that does a specific job. If one of the statements failed to execute of that group then none of the statements take effect at all. When the transaction is on progress all changes are invisible to other operations.  So the changes will take effect only when all operation of the transaction have successfully finished. 
+
+A transaction begins with `BEGIN;`  and ends with `COMMIT;`  We can include as many statements as we want to include in transaction.
+
+```sql
+BEGIN;
+UPDATE accounts SET balance = balance - 5000 WHERE id = 3;
+UPDATE accounts SET balance = balance + 5000 WHERE id = 4;
+COMMIT;
+```
+
