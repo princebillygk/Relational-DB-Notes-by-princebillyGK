@@ -174,7 +174,7 @@ SELECT * FROM weather_with_cities;
 ```
 ###### Output:
 
-###### ![Output](https://i.ibb.co/vcxTF0L/image.png) 
+![Output](https://i.ibb.co/vcxTF0L/image.png) 
 
 
 
@@ -191,7 +191,7 @@ AS
 
 ###### Output:
 
-###### ![output](https://i.ibb.co/sjnhWmQ/image.png)
+![output](https://i.ibb.co/sjnhWmQ/image.png) 
 
 
 
@@ -218,9 +218,7 @@ COMMIT;
 
 A way of using aggregate functions without group by clause and without limiting results of each group to a single rows.
 
-**OVER: ** Clause that determines windows (a set of rows),
-
-**PARTITION BY:** Splits the result set into partitions where the result set is applied. (can be compared to group by function when using aggregate function)
+**OVER: ** Clause that determines windows (a set of rows) **(PARTITION BY:** Splits the result set into partitions where the result set is applied. (can be compared to group by function when using aggregate function)**,** **ORDER BY**: Set the order of virtual tables **)**
 
 Assume this query;
 
@@ -277,7 +275,7 @@ GROUP  BY month
 ORDER  BY month; 
 ```
 ###### Output:
-###### ![output](https://i.ibb.co/rHMrMqN/image.png)
+![output](https://i.ibb.co/rHMrMqN/image.png) 
 
 
 
@@ -298,4 +296,64 @@ FROM   paragraph WINDOW w AS (partition BY workid) limit 10;
 ```
 ###### Output:
 
-###### ![output](https://i.ibb.co/VCfzsb1/image.png)
+![output](https://i.ibb.co/VCfzsb1/image.png)
+
+
+
+### Table Inheritance:
+
+Lets assume this classes:
+
+```typescript
+class Member {
+    id: number;
+    readonly username: string;
+    firstname: string;
+    lastName: string;
+    birthDay: Date;
+    joinedAt: Date;
+}
+
+class Student extends Member{
+    roll: number;
+    class: number;
+    section: string;
+}
+
+class Teacher extends Member {
+    teacherId: number;
+    postion: string;
+    department: string;
+}
+```
+
+
+
+We can implement this is in Postgres database using the inheritance feature without managing multiple tables and avoid extra efforts in writing query;
+
+```sql
+create table members (
+  id BIGSERIAL primary key, 
+  username varchar(50) not null unique, 
+  firstname varchar(50) not null, 
+  lastName varchar(50) not null, 
+  birthday date not null, 
+  joinedate date not null default current_date
+);
+
+create table students (
+  roll bigserial primary key, 
+  class int not null check (
+    class between 1 
+    and 12
+  ), 
+  section varchar(1)
+) inherits (members);
+
+create table teachers (
+  teacherid bigserial primary key, 
+  department varchar(50) not null
+);
+
+```
+
