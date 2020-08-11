@@ -127,7 +127,11 @@ Switch database inside psql promt:
 
 ## Good Practice:
 
-1. Never use **money** type to store currency (it is left for historical reasons) neither use float or any float like data types (can give incorrect result sometime) rather use **int** or **numeric with forced 2 unit precision**.
+1. While writing SELECT statements for making softwares or tools for users avoid using  * (as it can be dynamic) rather specify the columns that you will only need.
+2. Never use **money** type to store currency (it is left for historical reasons) neither use float or any float like data types (can give incorrect result sometime) rather use **int** or **numeric with forced 2 unit precision**.
+3. Write Keywords in uppercases and names in lowercases. 
+
+
 
 ## Querying: 
 
@@ -294,7 +298,7 @@ SELECT paragraphid,
        round(avg(wordcount) OVER  w) as avgWordCount
 FROM   paragraph WINDOW w AS (partition BY workid) limit 10;
 ```
-###### Output:
+**Output:**
 
 ![output](https://i.ibb.co/VCfzsb1/image.png)
 
@@ -302,7 +306,7 @@ FROM   paragraph WINDOW w AS (partition BY workid) limit 10;
 
 
 
-### ]Table Inheritance:
+### Table Inheritance:
 
 Lets assume this classes:
 
@@ -368,6 +372,112 @@ SELECT * FROM teachers; --select all teachers;
 SELECT * FROM ONLY members; --select only members (teachers and students not included)
 ```
 
-**Output: **
+**Output:**
 
 ![output](https://i.ibb.co/6X13SMP/Peek-2020-08-11-19-07.gif)
+
+### Constraints
+
+##### 1. Check Constraints: 
+
+Example: 
+
+```sql
+/* Most simple form */
+CREATE TABLE xyz (
+price numeric CHECK (price > 0) 
+...);
+
+/* Specify name */
+CREATE TABLE xyz (
+...
+price numeric CONSTRAINT positive_price CHECK (price > 0)
+...);
+
+/*In new line */
+CREATE TABLE xyz (
+...
+CHECK (discounted_price > 0 AND price > discounted_price)
+...);
+```
+
+##### 2. Unique Constraints
+
+##### 3. Primary Key
+
+##### 4. Foreign key
+
+```sql
+--Triggers
+ON DELETE RESTRICT 
+/* both no action and RESTRICT prevent deletion of referenced row */
+ON DELETE CASCADE 
+/* deletes referencing row when the reference row is deleted */
+ON DELETE SET NULL 
+/* set the foreign key value to null on delete of reference row */
+ON DELETE SET DEFAULT 
+/*set default value on delete of reference row */
+
+--Triggers
+ON UPDATE RESTRICT 
+/* both no action and RESTRICT prevent from updating of referenced row */
+ON UPDATE CASCADE 
+/* updates referencing row when the reference row is updated */
+ON UPDATE SET NULL 
+/* set the foreign key value to null on update of reference row */
+ON UPDATE SET DEFAULT 
+/*set default value on update of reference row */
+```
+
+**A foreign key must refer either a primary key or a unique constraint**
+
+
+
+## postgreSQL SQL Feature HIGHLIGHTS
+
+### Single Quote vs double quote: 
+
+| Use of Double Quote                                          | Use of Single Quote                                          | Use of Dollar Quoted String                                  |
+| ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| Used to specify identifier. eg. Column name, table name, database name. | Used to specify string constant                              | Used to Specify string constant. Generally used for writing function definition. |
+| Example: `SELECT * FROM "Tom's Table";`                      | Example: `UPDATE TABLE mytable SET firstname = 'TOM' WHERE id = 1;` | Example:  **String constant without tag =>** $$Tom's House$$ . **String constant without tag =>** $mystring$Hello 1234 ' '' \\\ $$ddfd $mystring$ ![outpput](https://i.ibb.co/bdjhJvW/image.png) |
+
+
+
+### Generated Column: 
+
+A generated column is automatically generated based on other columns values
+
+```sql
+CREATE TABLE person (
+  firstname VARCHAR(50) NOT NULL, 
+  lastname VARCHAR(50) NOT NULL, 
+  fulllname VARCHAR(100) GENERATED ALWAYS AS (firstname || ' ' || lastname) STORED
+);
+
+```
+
+**We cannot insert or update values into generated columns. A Generated column can only use immutable functions. A generation expression cannot reference to another generated column or system column**
+
+Output
+
+![output](https://i.ibb.co/WpWXgfW/image.png)
+
+
+
+### The Returning keyword
+
+Sometimes it is needed to know some information about most recent manipulated row. To avoid an extra query to get that information we can use `RETURNING [select_list]` with `INSERT`. `UPDATE` or `DELETE` keyword:
+
+```sql
+INSERT INTO ACTOR (first_name, last_name) VALUES ('PRINCE', 'NICHOLAS'), ('BILLY', 'VEVO')  RETURNING actor_id;
+```
+
+Output:
+
+```
+ actor_id 
+----------
+      203
+      204
+```
