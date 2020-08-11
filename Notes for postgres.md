@@ -300,7 +300,9 @@ FROM   paragraph WINDOW w AS (partition BY workid) limit 10;
 
 
 
-### Table Inheritance:
+
+
+### ]Table Inheritance:
 
 Lets assume this classes:
 
@@ -338,7 +340,7 @@ create table members (
   firstname varchar(50) not null, 
   lastName varchar(50) not null, 
   birthday date not null, 
-  joinedate date not null default current_date
+  joindate date not null default current_date
 );
 
 create table students (
@@ -353,7 +355,19 @@ create table students (
 create table teachers (
   teacherid bigserial primary key, 
   department varchar(50) not null
-);
+) INHERITS (members);
 
 ```
 
+Query: 
+
+```sql
+SELECT * FROM members; --select all members (included teachers and students);
+SELECT * FROM students; --select all students;
+SELECT * FROM teachers; --select all teachers;
+SELECT * FROM ONLY members; --select only members (teachers and students not included)
+```
+
+**Output: **
+
+![output](https://i.ibb.co/6X13SMP/Peek-2020-08-11-19-07.gif)
