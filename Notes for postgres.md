@@ -1,4 +1,4 @@
-# Get Started with PostgreSQl 
+# Get Started with PostgreSQL 
 
 ###### by princbillyGK
 
@@ -154,7 +154,16 @@ Switch database inside psql promt:
    | `WHERE` clause must not contain aggregate functions          | `HAVING` clause contains aggregate functions most of the time |
    | You can use `WHERE` without group by clause.                 | You cannot use `HAVING` without group by clause.             |
 
+3. We cannot use output column in `ORDER BY`  expression: 
 
+   ```diff
+   - SELECT (totalwords + totalparagraphs) AS twp, year FROM work ORDER BY (twp + year);
+   + SELECT (totalwords + totalparagraphs) AS twp, year FROM work ORDER BY (totalwords+ totalparagraphs + year);
+       --or
+   +  SELECT * FROM (select (totalwords + totalparagraphs) as twp, year from work) t order by (twp + year);
+   ```
+
+   
 
 ### Creating Views: 
 
@@ -481,3 +490,145 @@ Output:
       203
       204
 ```
+
+
+
+### Lateral vs non lateral sub queries
+
+<table>
+    <tr>
+        <th></th>
+    	<th>
+        	Lateral
+        </th>
+    	<th>
+        	Non lateral
+        </th>
+    </tr>
+    <tr>
+    	<td>
+            1
+        </td>
+    	<td>
+            Starts with <code>LATERAL</code> keyword
+        </td>
+        <td>
+        	Doesn't starts with any specific keyword
+        </td>
+    </tr>
+    <tr>
+    	<td>2</td>
+    	<td>
+			Can use refrence from any other columns by preceding <code>FROM</code></code> items
+    	</td>
+    	<td>
+           Works as a independent query. Can't use any refernce from any other <code>FROM</code> items
+    	</td>
+	</tr>
+	<tr>
+	<td>
+        3
+     </td>
+     <td>
+     	Example: <code>SELECT * FROM table1 t1, LATERAL (SELECT * FROM table2 t WHERE t1.id = t.id) t2;</code> 
+         <b>Here t1.id is a referenced column from preceding <code>FROM</code> item table1 which is aliased as t1 </b>
+     </td>
+     <td>
+         <code>SELECT * FROM fdt WHERE c1 IN (SELECT c1 FROM t2)</code>
+     </td>
+</tr>
+</table>
+
+
+### Group by `GROUPING SETS` => shorthand `ROLLUP` vs `CUBE`:
+
+#### `ROLLUP` 
+
+<table>
+    <tr>
+        <th><code>ROLLUP</code> => </th>
+        <th><code>GROUPING SETS</code></th>
+    </tr>
+    <tr>
+ 	   	<td>
+    		<pre>
+ROLLUP ( e1, e2, e3, ... )
+    		</pre>   
+​   	</td>
+        	   	<td>
+    		<pre>
+GROUPING SETS (
+    ( e1, e2, e3, ... ),
+    ...
+    ( e1, e2 ),
+    ( e1 ),
+    ( )
+)
+    		</pre>   
+​   	</td>
+    </tr>
+</table>
+
+`CUBE`
+
+<table>
+    <tr>
+        <th><code>ROLLUP</code> => </th>
+        <th><code>GROUPING SETS</code></th>
+    </tr>
+    <tr>
+ 	   	<td>
+    		<pre>
+CUBE ( a, b, c )
+    		</pre>   
+   	</td>
+        	   	<td>
+    		<pre>
+GROUPING SETS (
+    ( a, b, c ),
+    ( a, b    ),
+    ( a,    c ),
+    ( a       ),
+    (    b, c ),
+    (    b    ),
+    (       c ),
+    (         )
+)
+    		</pre>   
+   	</td>
+    </tr>
+</table>
+
+
+
+### Combining result sets (`UNION`, `INTERSECT`, `EXCEPT`)
+
+|  `UNION`  | `INTERSECT` | `EXCEPT`  |
+| :-------: | :---------: | :-------: |
+| **A ∪ B** |  **A ∩ B**  | **A - B** |
+
+**Duplicates are removed automatically if `UNION ALL`, `INTERSECT ALL` `EXCEPT ALL`  is not used.**
+
+### Use of values
+
+to generate constant table: 
+
+```sql
+SELECT * FROM (VALUES ('pi', '3.1416'), ('g', '9.8')) AS t (constant,value);
+```
+
+**Output**:
+
+```sql
+ constant | value  
+----------+--------
+ pi       | 3.1416
+ g        | 9.8
+
+```
+
+### Use of With
+
+**To much to keep in mind**
+
+better go here:  https://www.postgresql.org/docs/12/queries-with.html
