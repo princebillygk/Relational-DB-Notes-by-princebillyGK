@@ -3,8 +3,41 @@
 **by princbillyGK**
 
 <hr>
+## Table of Content
 
-[TOC]
+- [Get Started with PostgreSQL](#get-started-with-postgresql)
+  * [Download & installation:](#download---installation-)
+    + [Download and install psql:](#download-and-install-psql-)
+    + [Download and install pgAdmin:](#download-and-install-pgadmin-)
+  * [Configuration](#configuration)
+    + [First time connect to psql and configure for development linux:](#first-time-connect-to-psql-and-configure-for-development-linux-)
+    + [Connect to psql after configuration](#connect-to-psql-after-configuration)
+        * [How to write comments:](#how-to-write-comments-)
+        * [Some helpful command to get started:](#some-helpful-command-to-get-started-)
+  * [Get started](#get-started)
+    + [Good Practice:](#good-practice-)
+  * [Right or Wrongs:](#right-or-wrongs-)
+  * [Advance Features](#advance-features)
+    + [Creating Views:](#creating-views-)
+    + [Transaction:](#transaction-)
+    + [Windows Function](#windows-function)
+    + [Table Inheritance:](#table-inheritance-)
+  * [Some Important Notes](#some-important-notes)
+    + [Constraints](#constraints)
+        * [Check Constraints:](#check-constraints-)
+        * [Unique Constraints](#unique-constraints)
+        * [Primary Key](#primary-key)
+        * [Foreign key](#foreign-key)
+    + [Single Quote vs double quote:](#single-quote-vs-double-quote-)
+    + [Generated Column](#generated-column)
+    + [The Returning keyword](#the-returning-keyword)
+    + [`Lateral` vs non lateral sub queries](#-lateral--vs-non-lateral-sub-queries)
+    + [Group by `GROUPING SETS` => shorthand `ROLLUP` vs `CUBE`:](#group-by--grouping-sets-----shorthand--rollup--vs--cube--)
+      - [`ROLLUP`](#-rollup-)
+      - [`CUBE`](#-cube-)
+    + [Combining result sets (`UNION`, `INTERSECT`, `EXCEPT`)](#combining-result-sets---union----intersect----except--)
+    + [Use of `VALUES`](#use-of--values-)
+    + [Use of `WITH`](#use-of--with-)
 
 
 
