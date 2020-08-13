@@ -1,30 +1,34 @@
 # Get Started with PostgreSQL 
 
-###### by princbillyGK
+**by princbillyGK**
 
-### Download & installation:
+<hr>
 
-1. Download and install psql:
+[TOC]
+
+
+
+## Download & installation:
+
+1. ### Download and install psql:
 
    (**https://www.postgresql.org/download/**)
 
-2. Download and install pgAdmin: 
+2. ### Download and install pgAdmin: 
 
    (**https://www.pgadmin.org/download/**)
 
    
 
-### Help Command
+## Configuration
+
+### First time connect to psql and configure for development linux:
+
+Help Command
 
 ```shell
-psql --help #for help
+psql --help	
 ```
-
-
-
-### Configuration
-
-#### First time connect to psql and configure for development linux:
 
 Open the terminal:
 
@@ -68,7 +72,7 @@ sudo service postgresql restart
 
 
 
-#### Connect to psql after configuration
+### Connect to psql after configuration
 
 ```shell
 psql -U postgres
@@ -125,7 +129,7 @@ Switch database inside psql promt:
 
 
 
-## Good Practice:
+### Good Practice:
 
 1. While writing SELECT statements for making softwares or tools for users avoid using  * (as it can be dynamic) rather specify the columns that you will only need.
 2. Never use **money** type to store currency (it is left for historical reasons) neither use float or any float like data types (can give incorrect result sometime) rather use **int** or **numeric with forced 2 unit precision**.
@@ -133,9 +137,7 @@ Switch database inside psql promt:
 
 
 
-## Querying: 
-
-### Right or Wrongs:
+## Right or Wrongs:
 
 1. Aggregate function are not allowed in where clause:
 
@@ -165,6 +167,8 @@ Switch database inside psql promt:
 
    
 
+## Advance Features
+
 ### Creating Views: 
 
 We can create view to encapsulate details of a query. 
@@ -185,7 +189,7 @@ AS
 ```sql
 SELECT * FROM weather_with_cities;
 ```
-###### Output:
+**Output:**
 
 ![Output](https://i.ibb.co/vcxTF0L/image.png) 
 
@@ -202,7 +206,7 @@ AS
                     FROM   weather); 
 ```
 
-###### Output:
+**Output:**
 
 ![output](https://i.ibb.co/sjnhWmQ/image.png) 
 
@@ -270,7 +274,7 @@ Both results same output:
 
 ![Statement 1 & 2 ouput](https://i.ibb.co/K6sWBjj/test2.gif)
 
-#####  Example using ORDER BY:
+**Example using ORDER BY:**
 
 When `ORDER BY` is supplied then the frame consists of all rows from the start of the partition up through the current row, plus any following rows that are equal to the current row according to the `ORDER BY` clause. When `ORDER BY` is omitted the default frame consists of all rows in the partition.
 
@@ -287,10 +291,9 @@ WHERE  Date_part('year', payment_date) = '2017'
 GROUP  BY month 
 ORDER  BY month; 
 ```
-###### Output:
+Output:
+
 ![output](https://i.ibb.co/rHMrMqN/image.png) 
-
-
 
 **We can also reuse the same window function behavior using `WINDOW` clause:**
 
@@ -310,10 +313,6 @@ FROM   paragraph WINDOW w AS (partition BY workid) limit 10;
 **Output:**
 
 ![output](https://i.ibb.co/VCfzsb1/image.png)
-
-
-
-
 
 ### Table Inheritance:
 
@@ -372,7 +371,7 @@ create table teachers (
 
 ```
 
-Query: 
+**Query**: 
 
 ```sql
 SELECT * FROM members; --select all members (included teachers and students);
@@ -385,9 +384,13 @@ SELECT * FROM ONLY members; --select only members (teachers and students not inc
 
 ![output](https://i.ibb.co/6X13SMP/Peek-2020-08-11-19-07.gif)
 
+
+
+## Some Important Notes
+
 ### Constraints
 
-##### 1. Check Constraints: 
+##### Check Constraints: 
 
 Example: 
 
@@ -410,11 +413,11 @@ CHECK (discounted_price > 0 AND price > discounted_price)
 ...);
 ```
 
-##### 2. Unique Constraints
+##### Unique Constraints
 
-##### 3. Primary Key
+##### Primary Key
 
-##### 4. Foreign key
+##### Foreign key
 
 ```sql
 --Triggers
@@ -442,8 +445,6 @@ ON UPDATE SET DEFAULT
 
 
 
-## postgreSQL SQL Feature HIGHLIGHTS
-
 ### Single Quote vs double quote: 
 
 | Use of Double Quote                                          | Use of Single Quote                                          | Use of Dollar Quoted String                                  |
@@ -453,7 +454,7 @@ ON UPDATE SET DEFAULT
 
 
 
-### Generated Column: 
+### Generated Column
 
 A generated column is automatically generated based on other columns values
 
@@ -493,7 +494,7 @@ Output:
 
 
 
-### Lateral vs non lateral sub queries
+### `Lateral` vs non lateral sub queries
 
 <table>
     <tr>
@@ -568,8 +569,7 @@ GROUPING SETS (
 ​   	</td>
     </tr>
 </table>
-
-`CUBE`
+#### `CUBE`
 
 <table>
     <tr>
@@ -609,7 +609,7 @@ GROUPING SETS (
 
 **Duplicates are removed automatically if `UNION ALL`, `INTERSECT ALL` `EXCEPT ALL`  is not used.**
 
-### Use of values
+### Use of `VALUES`
 
 to generate constant table: 
 
@@ -627,7 +627,7 @@ SELECT * FROM (VALUES ('pi', '3.1416'), ('g', '9.8')) AS t (constant,value);
 
 ```
 
-### Use of With
+### Use of `WITH`
 
 **To much to keep in mind**
 
