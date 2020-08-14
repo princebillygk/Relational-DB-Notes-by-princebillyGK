@@ -1,4 +1,11 @@
-# Numeric Types
+> # Postgres data types cheat sheet
+>
+> **by princebillyGK**
+
+<!-- START doctoc -->
+<!-- END doctoc -->
+
+## Numeric Types
 
 | Name               | Storage Size | Description                     | Range                                                        |
 | ------------------ | ------------ | ------------------------------- | ------------------------------------------------------------ |
@@ -14,7 +21,7 @@
 
 
 
-# String / Character Types
+## String / Character Types
 
 | Name         | Description                |
 | ------------ | -------------------------- |
@@ -23,13 +30,13 @@
 
 
 
-# Binary Data Type
+## Binary Data Type
 
 | Name    | Size                                       | Description                   |
 | ------- | ------------------------------------------ | ----------------------------- |
 | `bytea` | 1 or 4 bytes plus the actual binary string | variable-length binary string |
 
-# Date/ Time Types
+## Date/ Time Types
 
 | Name         | Description                                                  | Example                                                      |
 | ------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -39,7 +46,7 @@
 | `date`       | Date                                                         | **1999-01-08**                                               |
 | `interval`   | **Add one of these (mandatory):** `YEAR` `MONTH` `DAY` `HOUR``MINUTE` `SECOND` `YEAR TO MONTH` `DAY TO HOUR` `DAY TO MINUTE` `DAY TO SECOND` `HOUR TO MINUTE` `HOUR TO SECOND` `MINUTE TO SECOND` | **Y**	Years<br/>**M**	Months (in the date part)<br/>**W**	Weeks<br/>**D**	Days<br/>**H**	Hours<br/>**M**	Minutes (in the time part)<br/>**S**	Seconds |
 
-# Boolean Types
+## Boolean Types
 
 | Name      | Storage Size | Description            |
 | --------- | ------------ | ---------------------- |
@@ -47,7 +54,7 @@
 
 
 
-# Enum Types
+## Enum Types
 
 To use `ENUM` we have to create one first:
 
@@ -64,7 +71,7 @@ CREATE TABLE person (
 
 
 
-# **UUID TYPES**
+## **UUID TYPES**
 
 ```
 A0EEBC99-9C0B-4EF8-BB6D-6BB9BD380A11
@@ -76,7 +83,7 @@ a0ee-bc99-9c0b-4ef8-bb6d-6bb9-bd38-0a11
 
 
 
-# Other Types
+## Other Types
 
 **Geometric Types:** https://www.postgresql.org/docs/12/datatype-geometric.html
 

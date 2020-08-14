@@ -1,44 +1,10 @@
-# Get Started with PostgreSQL 
-
-**by princbillyGK**
+> # Get Started with PostgreSQL 
+>
+> **by princbillyGK**
 
 <hr>
-## Table of Content
-
-- [Get Started with PostgreSQL](#get-started-with-postgresql)
-  * [Download & installation:](#download---installation-)
-    + [Download and install psql:](#download-and-install-psql-)
-    + [Download and install pgAdmin:](#download-and-install-pgadmin-)
-  * [Configuration](#configuration)
-    + [First time connect to psql and configure for development linux:](#first-time-connect-to-psql-and-configure-for-development-linux-)
-    + [Connect to psql after configuration](#connect-to-psql-after-configuration)
-        * [How to write comments:](#how-to-write-comments-)
-        * [Some helpful command to get started:](#some-helpful-command-to-get-started-)
-  * [Get started](#get-started)
-    + [Good Practice:](#good-practice-)
-  * [Right or Wrongs:](#right-or-wrongs-)
-  * [Advance Features](#advance-features)
-    + [Creating Views:](#creating-views-)
-    + [Transaction:](#transaction-)
-    + [Windows Function](#windows-function)
-    + [Table Inheritance:](#table-inheritance-)
-  * [Some Important Notes](#some-important-notes)
-    + [Constraints](#constraints)
-        * [Check Constraints:](#check-constraints-)
-        * [Unique Constraints](#unique-constraints)
-        * [Primary Key](#primary-key)
-        * [Foreign key](#foreign-key)
-    + [Single Quote vs double quote:](#single-quote-vs-double-quote-)
-    + [Generated Column](#generated-column)
-    + [The Returning keyword](#the-returning-keyword)
-    + [`Lateral` vs non lateral sub queries](#-lateral--vs-non-lateral-sub-queries)
-    + [Group by `GROUPING SETS` => shorthand `ROLLUP` vs `CUBE`:](#group-by--grouping-sets-----shorthand--rollup--vs--cube--)
-      - [`ROLLUP`](#-rollup-)
-      - [`CUBE`](#-cube-)
-    + [Combining result sets (`UNION`, `INTERSECT`, `EXCEPT`)](#combining-result-sets---union----intersect----except--)
-    + [Use of `VALUES`](#use-of--values-)
-    + [Use of `WITH`](#use-of--with-)
-
+<!-- START doctoc -->
+<!-- END doctoc -->
 
 
 ## Download & installation:
@@ -665,3 +631,134 @@ SELECT * FROM (VALUES ('pi', '3.1416'), ('g', '9.8')) AS t (constant,value);
 **To much to keep in mind**
 
 better go here:  https://www.postgresql.org/docs/12/queries-with.html
+
+
+
+### `ILIKE` vs `LIKE` 
+
+`ILIKE` is not case sensitive whereas `LIKE` is case sensitive matching operator
+
+### `SIMILAR TO` reg_exp
+
+Here is my notes on reg_exp
+
+https://gist.github.com/princebillyGK/c4b3f55c858a5c0d17f9049b6095fb8c
+
+
+
+### `BETWEEN SYMMETRIC x AND Y` vs `BETWEEN x AND y`
+
+`BETWEEN X AND Y` here x is always less than or equal to y.     **x < y** or **x = y**
+
+**Example:** `BETWEEN 5 and 10` `BETWEEN 5 and 5`
+
+`BETWEEN x AND y` here x and y values are not depended to each other. **x < y** or **x > y** or **x = y**
+
+**Example:** `BETWEEN 5 and 10` `BETWEEN 5 and 5``BETWEEN 10 and 5`
+
+### `<>` or `!=` vs`IS DISTINCT FROM`  and `=` vs `IS NOT DISTINCT FROM`
+
+
+
+```sql
+/* <> OR != */
+SELECT null <> null; --returns null
+SELECT 5 != null; --returns null
+
+/* =  */
+SELECT null = null; --returns null
+SELECT 5 = null; --returns null
+
+/* DISTINCT */
+SELECT 4 IS DISTINCT FROM null; --returns true
+SELECT null IS DISTINCT FROM null; --return false
+
+/* IS NO DISTINCT */
+SELECT 4 IS NOT DISTINCT FROM null; --returns false
+SELECT null IS NOT DISTINCT FROM null; --return true
+```
+
+### CASE Syntax
+
+```plsql
+CASE WHEN condition THEN result
+     [WHEN ...]
+     [ELSE result]
+END
+```
+
+### `COALESCE` Syntax
+
+```sql
+COALESCE ('if it is not null then print it other wise next parameter', 'if it is not null then print it other wise check next parmeter', ...);
+```
+
+### NULLIF
+
+```
+NULLIF(col, 'if col matched with this value then return null')
+```
+
+### `GREATEST` and `LEAST`
+
+```sql
+GREATEST(value [, ...]) --finds the greatest value	
+LEAST(value [, ...]) --finds the least value
+```
+
+
+
+# Important functions and operators
+
+### Mathematical operator
+
+|       |                                                  |             |       |
+| ----- | ------------------------------------------------ | ----------- | ----- |
+| `+`   | addition                                         | `2 + 3`     | `5`   |
+| `-`   | subtraction                                      | `2 - 3`     | `-1`  |
+| `*`   | multiplication                                   | `2 * 3`     | `6`   |
+| `/`   | division (integer division truncates the result) | `4 / 2`     | `2`   |
+| `%`   | modulo (remainder)                               | `5 % 4`     | `1`   |
+| `^`   | exponentiation (associates left to right)        | `2.0 ^ 3.0` | `8`   |
+| `|/`  | square root                                      | `|/ 25.0`   | `5`   |
+| `||/` | cube root                                        | `||/ 27.0`  | `3`   |
+| `!`   | factorial                                        | `5 !`       | `120` |
+| `!!`  | factorial (prefix operator)                      | `!! 5`      | `120` |
+| `@`   | absolute value                                   | `@ -5.0`    | `5`   |
+| `&`   | bitwise AND                                      | `91 & 15`   | `11`  |
+| `|`   | bitwise OR                                       | `32 | 3`    | `35`  |
+| `#`   | bitwise XOR                                      | `17 # 5`    | `20`  |
+| `~`   | bitwise NOT                                      | `~1`        | `-2`  |
+| `<<`  | bitwise shift left                               | `1 << 4`    | `16`  |
+| `>>`  | bitwise shift right                              | `8 >> 2`    | `2`   |
+
+### String Operators
+
+| Operator | Description                                    | Example              | Result       |
+| -------- | ---------------------------------------------- | -------------------- | ------------ |
+| \|\|     | String concatenation                           | `'Post' || 'greSQL'` | `PostgreSQL` |
+|          | String concatenation with one non-string input | `'Value: ' || 42`    | `Value: 42`  |
+
+### Window Functions
+
+| Function              | Return Type              | Description                                                  |
+| --------------------- | ------------------------ | ------------------------------------------------------------ |
+| `row_number()`        | `bigint`                 | number of the current row within its partition, counting from 1 |
+| `rank()`              | `bigint`                 | rank of the current row with gaps; same as `row_number` of its first peer |
+| `dense_rank()`        | `bigint`                 | rank of the current row without gaps; this function counts peer groups |
+| `percent_rank()`      | `double precision`       | relative rank of the current row: (`rank` - 1) / (total partition rows - 1) |
+| `cume_dist()`         | `double precision`       | cumulative distribution: (number of partition rows preceding or peer with current row) / total partition rows |
+| `first_value(column)` | `same type as *`value`*` | returns *`value`* evaluated at the row that is the first row of the window frame |
+| `last_value(column)`  | `same type as *`value`*` | returns *`value`* evaluated at the row that is the last row of the window frame |
+| `nth_value(col, n)`   | `same type as *`value`*` | returns *`value`* evaluated at the row that is the *`nth`* row of the window frame (counting from 1); null if no such r |
+
+### Sub query Expressions
+
+```sql
+EXISTS (subquery) --returns true if any element exists
+expression IN (subquery) --returns true if expresion value exists in subquery
+expression NOT IN (subquery) --returns true if expresion value not exists in subquery
+expression operator ANY (subquery) / 
+expression operator SOME (subquery) --returns any operation returns true
+row_constructor operator ALL (subquery) -- returns false if any operation returns false
+```
