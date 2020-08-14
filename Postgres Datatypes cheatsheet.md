@@ -1,10 +1,31 @@
-> # Postgres data types cheat sheet
+> Postgres data types cheat sheet
+> ====================================
 >
 > **by princebillyGK**
 
-<!-- START doctoc -->
-<!-- END doctoc -->
+<hr>
 
+## Table of contents
+
+ * [Postgres data types cheat sheet](#postgres-data-types-cheat-sheet)
+      
+      * [Numeric Types](#numeric-types)
+      
+      * [String / Character Types](#string--character-types)
+      
+      * [Binary Data Type](#binary-data-type)
+      
+      * [Date/ Time Types](#date-time-types)
+      
+      * [Boolean Types](#boolean-types)
+      
+      * [Enum Types](#enum-types)
+      
+      * [UUID TYPES](#uuid-types)
+      
+      * [Other Types](#other-types)
+      
+        
 
 
 ## Numeric Types
@@ -73,7 +94,7 @@ CREATE TABLE person (
 
 
 
-## **UUID TYPES**
+## UUID TYPES
 
 ```
 A0EEBC99-9C0B-4EF8-BB6D-6BB9BD380A11
