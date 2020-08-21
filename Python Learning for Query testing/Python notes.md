@@ -278,6 +278,77 @@ from package_or_module import pfunction, qfunction, sfunction as x, zfunction
 
 Constructor
 
+#### Class Inheritance
+
+```python
+class Car():
+    """A simple attempt to represnt a car"""
+
+    def __init__(self, make, model, year):
+        self.make = make
+        self.model = model
+        self.year = year
+        self.odometer_reading = 0
+
+    def get_descriptive_name(self):
+        """prints year, make and model"""
+        long_name = str(self.year) + ' ' + self.make + ' ' + self.model
+        return long_name.title()
+
+    def read_odometer(self):
+        """prints odometer reading"""
+        print("This car has " + str(self.odometer_reading) + " miles on it.")
+
+    def update_odometer(self, mileage):
+        """update odometers based on conditions"""
+        if mileage >= self.odometer_reading:
+            self.odometer_reading = mileage
+        else:
+            print("You can't roll back an odometer")
+            
+    def increment_odometer(self, miles):
+        self.odometer_reading += miles
+
+class ElectricCar(Car): 
+    """Represents aspects of a car, specific to electric varhicles"""
+
+    def __init__(self, make, model, year):
+        super().__init__(make, model, year)
+
+    def print_descriptive_name(self):
+        #print(super().get_descriptive_name()); #this will work but
+                                                #no need to call super everytime
+        print(self.get_descriptive_name());     #we can use self to access super
+                                                #class members
+
+car = Car("Bangladesh", "Walton", 2024)
+print(car.get_descriptive_name())
+car.read_odometer()
+mytesla = ElectricCar("USA", "Tesla 403x", 2024)
+print(mytesla.get_descriptive_name())
+mytesla.print_descriptive_name()
+```
+
+
+
+#### Try-except
+
+```python
+try:
+    number1 = input("Input a number: ")
+    number2 = input("Input another number: ")
+    result = number1 / number2
+    with open("test.txt", "r+") as test:
+        contents = test.read().rstrip()
+        test.write(str(result))
+except ZeroDivisionError:
+    print("Division by 0 is not allowed")
+except IOError: 
+    print("File not found")
+else:
+   print( contents)  #do something if no error occured
+```
+
 
 
 ## Some important functions and different uses:
@@ -344,8 +415,54 @@ cubes = [i ** 3 for i in range(1, 11)]
 ```python
 a_range_of_4_items = range(4) #returns a range of 4 items
 myrange = range(i, j) #contains i to j-1 element
-myrange = range(2, 100, 2) #contains all even number range(start, end-1, step)
+myrange = range(2, 100, 2) #contains all even number range(start, end-1, ste p)
+```
 
 
+
+# Working with files
+
+#### Reading a file
+
+```python
+with open("test.txt") as text_file:
+    contents = text_file.read()
+    print(contents.rstrip()) #rstrip removes the extra blank line caused by eof
+```
+
+##### Reading a file line by line
+
+```python
+with open("test.txt") as text_file:
+	for line in text_file:
+		print(line.rstrip()) #restrip removes the extra blank line cause by \n at the end of each line
+```
+
+##### Read all lines and store each line as item in list
+
+```python
+with open("test.py", "r") as text_file:
+	lines = text_file.readlines();
+```
+
+
+
+#### Writing lines
+
+```python
+with open("test.txt", "w") as text_file:
+    text_file.write("I love programing\n")
+    text_file.write("I love python so much\n")
+    text_file.write("My favourite programing language is typescript\n")
+
+```
+
+#### File opening modes
+
+```python
+"r" #read mode
+"w" #write mode
+"a" #append mode
+"r+" #read and append mode 
 ```
 
