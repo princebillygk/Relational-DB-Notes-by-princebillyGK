@@ -24,7 +24,7 @@
         "key":"building_number"
     },
     {
-        "name":"Century",
+        "name":"Century (Roman number)",
         "key":"century"
     },
     {
@@ -88,55 +88,55 @@
         "key":"currency_symbol"
     },
     {
-        "name":"Date YYYY-MM-DD",
+        "name":"Date (YYYY-MM-DD)",
         "key":"date"
     },
     {
-        "name":"Date from future",
+        "name":"Date from future (YYYY-MM-DD)",
         "key":"future_date"
     },
     {
-        "name":"Date from past",
+        "name":"Date from past (YYYY-MM-DD)",
         "key":"past_date"
     },
     {
-        "name":"Date of birth",
+        "name":"Date of birth (YYYY-MM-DD)",
         "key":"date_of_birth"
     },
     {
-        "name":"Date of this decade",
+        "name":"Date of this decade (YYYY-MM-DD)",
         "key":"date_this_decade"
     },
     {
-        "name":"Datetime",
+        "name":"Datetime (YYYY-MM-DD hh:mm:ss)",
         "key":"date_time"
     },
     {
-        "name":"Datetime from future",
+        "name":"Datetime from future (YYYY-MM-DD hh:mm:ss)",
         "key":"future_datetime"
     },
     {
-        "name":"Datetime from past",
+        "name":"Datetime from past (YYYY-MM-DD hh:mm:ss)",
         "key":"past_datetime"
     },
     {
-        "name":"Datetime of this decade",
+        "name":"Datetime of this decade (YYYY-MM-DD hh:mm:ss)",
         "key":"date_time_this_decade"
     },
     {
-        "name":"Day of month",
+        "name":"Day of month (DD)",
         "key":"day_of_month"
     },
     {
         "name":"Day of Week",
-        "key":"day_of_week"
+        "key":"day_of_week (Sunday)"
     },
     {
-        "name":"Ean",
+        "name":"EAN code",
         "key":"ean"
     },
     {
-        "name":"Ein",
+        "name":"Employer Identification Number (EIN)",
         "key":"ein"
     },
     {
@@ -148,12 +148,8 @@
         "key":"ascii_company_email"
     },
     {
-        "name":"Email Free",
-        "key":"ascii_company_email"
-    },
-    {
-        "name":"Email Company",
-        "key":"ascii_company_email"
+        "name":"Email Free (Yahoo, Gmail, Zoho,...)",
+        "key":"ascii_free_email"
     },
     {
         "name":"Email @example.com",
@@ -172,7 +168,7 @@
         "key":"first_name_female"
     },
     {
-        "name":"IPV4",
+        "name":"IPV4 (192.168.0.1)",
         "key":"ipv4"
     },
     {
@@ -228,11 +224,11 @@
         "key":"mime_type"
     },
     {
-        "name":"Month",
+        "name":"Month (MM)",
         "key":"month"
     },
     {
-        "month_name":"Month Name",
+        "month_name":"Month Name (August)",
         "key":"month_name"
     },
     {
@@ -240,7 +236,7 @@
         "key":"msisdn"
     },
     {
-        "name":"Name",
+        "name":"Name (Person)",
         "key":"name"
     },
     {
@@ -256,11 +252,11 @@
         "key":"password"
     },
     {
-        "name":"Phone",
+        "name":"Phone Number",
         "key":"phone_number"
     },
     {
-        "name":"Port",
+        "name":"PORT eg. 192.16.1.1:8080 => 8080 is a port",
         "key":"port_number"
     },
     {
@@ -268,7 +264,7 @@
         "key":"postalcode"
     },
     {
-        "name":"Random Digit Not Null",
+        "name":"Random Digit",
         "key":"random_digit_not_null"
     },
     {
@@ -312,36 +308,28 @@
         "key":"text"
     },
     {
-        "name":"Time",
+        "name":"Time (hh:mm:ss)",
         "key":"time"
     },
     {
-        "name":"Time Zone",
+        "name":"Time Zone (Region/Area)",
         "key":"timezone"
     },
     {
-        "name":"Time Stamp",
-        "key":"timestamp"
-    },
-    {
-        "name":"Unix Time",
+        "name":"Unix Time (204433301)",
         "key":"unix_time"
     },
     {
-        "name":"UUID",
+        "name":"UUID (uuid4)",
         "key":"uuid4"
     },
     {
-        "name":"Web url",
+        "name":"URL",
         "key":"url"
     },
     {
         "name":"Word",
         "key":"word"
-    },
-    {
-        "name":"Year",
-        "key":"year"
     },
     {
         "name":"Year",

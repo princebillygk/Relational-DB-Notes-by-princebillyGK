@@ -1,4 +1,4 @@
-from PyInquirer import prompt, print_json
+from PyInquirer import prompt
 from schema import Schema
 
 print("Welcome to database generator")
@@ -48,9 +48,8 @@ while True:
     }
     user_choice = prompt([question])['choice']
 
-    if user_choice == 'QUIT':
-        print("Good bye for now. See you again!")
-        break
+    if user_choice == 'GEN':
+        db.generate()
     elif user_choice == 'ADD':
         db.add_new_table()
     elif user_choice == 'DEL':
@@ -60,4 +59,5 @@ while True:
     elif user_choice == 'LIST':
         db.list_tables()
     else:
-        db.generate()
+        print("Good bye for now. See you again!")
+        break
