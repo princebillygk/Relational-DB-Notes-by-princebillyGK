@@ -6,44 +6,112 @@ with open('datatypes_faker.json') as datatype_file:
     datatypes = json_loader(datatype_file)
 
 
-class Schema:
-    """Creates a schema for storing database columns"""
-
-    def __init__(self, name="myschema"):
-        self.name = name
-        self.tables = []
-
-    def __input_table_index(self):
+class DBItems:
+    def input_unique_obj_index(self, ls_name):
         """Get column index from prompt"""
-        if self.tables:
+        if getattr(self, ls_name):
             question = {
                 'type': 'list',
                 'name': 'table_index',
-                'message': 'Select an table from the list',
-                'choices': [{'name': table.name, 'value': index}
-                            for index, table in enumerate(self.tables)],
+                'message': 'Select an %s from the list' % ls_name[:-1],
+                'choices': [{'name': obj.name, 'value': index}
+                            for index, obj in enumerate(getattr(self, ls_name))],
             }
             return prompt([question])['table_index']
+
+
+class Schema(DBItems):
+    """Creates a schema for storing database columns"""
+
+    def __init__(self, name="myschema"):
+        super().__init__()
+        self.name = name
+        self.tables = []
+        self.references = []
+
+    def open_schema_menu(self):
+        while True:
+            # get user choice
+            question = {
+                'type': 'list',
+                'name': "choice",
+                'message': "What do you want to do?",
+                'choices': [
+                    {
+                        'name': 'Add a new table',
+                        'value': 'ADD',
+                    },
+                    {
+                        'name': 'Remove a table',
+                        'value': 'DEL',
+                    },
+                    {
+                        'name': 'Modify a table',
+                        'value': 'EDIT',
+                    },
+                    {
+                        'name': 'Add a new reference',
+                        'value': 'ADDR',
+                    },
+                    {
+                        'name': 'Remove a reference',
+                        'value': 'DELR',
+                    },
+                    {
+                        'name': 'list tables',
+                        'value': 'LIST',
+                    },
+                    {
+                        'name': 'Generate fake data',
+                        'value': 'GEN',
+                    },
+                    {
+                        'name': 'Quit',
+                        'value': 'QUIT'
+                    }
+                ]
+            }
+            user_choice = prompt([question])['choice']
+
+            if user_choice == 'GEN':
+                self.generate()
+            elif user_choice == 'ADD':
+                self.add_new_table()
+            elif user_choice == 'DEL':
+                self.remove_table()
+            elif user_choice == 'EDIT':
+                self.modify_table()
+            elif user_choice == 'LIST':
+                self.list_tables()
+            else:
+                print("Good bye for now. See you again!")
+                break
 
     def add_new_table(self):
         """Create a new table in the schema"""
         # input table name
-        table_name = prompt({
+        answer = prompt({
             'type': 'input',
             'name': 'table',
             'message': 'Input table name'
-        })['table']
+        }, {
+            'type': 'confirm',
+            'name': 'is_id_included',
+            'message': 'Do you want to include an id field?'
+        })
+
+        table_name = answer.table
         # check if table name already exists
         for table in self.tables:
             if table.name == table_name:
                 print("A table named %s already exists" % table_name)
                 return
         # creates a table
-        self.tables.append(Table(table_name))
+        self.tables.append(Table(table_name, answer.is_id_included))
 
     def remove_table(self):
         """removes a table if exists"""
-        table_index = self.__input_table_index()
+        table_index = self.input_unique_obj_index('tables')
         if table_index is not None:
             table_name = self.tables.pop(table_index).name
             print(table_name + " is removed")
@@ -51,41 +119,71 @@ class Schema:
             print("No tables to remove")
 
     def modify_table(self):
-        """removes a table if exists"""
-        table_index = self.__input_table_index()
+        """modify a table if exists"""
+        table_index = self.input_unique_obj_index('tables')
         if table_index is not None:
             print("Modifying table " + self.tables[table_index].name)
         else:
             print("No tables to modify")
+
+    def add_new_reference(self):
+        """Create a new  reference in the schema"""
+        # input reference name
+        reference_name = prompt({
+            'type': 'input',
+            'name': 'reference',
+            'message': 'Input reference name'
+        })['reference']
+        # check if reference name already exists
+        for reference in self.references:
+            if reference.name == reference_name:
+                print("A reference named %s already exists" % reference_name)
+                return
+        # creates a reference
+        print("Source")
+        src_tbl_idx = self.input_unique_obj_index('tables')
+        src_col_idx = self.tables[src_tbl_idx].input_unique_obj_index('columns')
+        print("REference")
+        ref_tbl_idx = self.input_unique_obj_index('tables')
+        ref_col_idx = self.tables[ref_tbl_idx].input_unique_obj_index('columns')
+
+        self.references.append(Reference(
+            reference_name,
+            src_tbl_idx,
+            src_col_idx,
+            ref_tbl_idx,
+            ref_col_idx
+        ))
+
+    def remove_reference(self):
+        """removes a reference if exists"""
+        reference_index = self.input_unique_obj_index('references')
+        if reference_index is not None:
+            reference_name = self.references.pop(reference_index).name
+            print(reference_name + " is removed")
+        else:
+            print("No references to remove")
 
     def generate(self):
         print("generating fake data")
 
     def list_tables(self):
         for table in self.tables:
-            print(table.name)
+            table.describe()
 
 
-class Table:
+class Table(DBItems):
     """creates a new column"""
 
-    def __init__(self, name):
-        """creates a new column with this name"""
+    def __init__(self, name, is_id_included):
+        super().__init__()
         self.name = name
         self.columns = []
+        self.is_id = is_id_included
         self.open_table_menu()
 
-    def __input_column_index(self):
-        """Get column index from prompt"""
-        if self.columns:
-            question = {
-                'type': 'list',
-                'name': 'column_index',
-                'message': 'Select an column from the list',
-                'choices': [{'name': column.name, 'value': index}
-                            for index, column in enumerate(self.columns)],
-            }
-            return prompt([question])['column_index']
+    def describe(self):
+        print(self.name + " id: " + str(self.is_id) + " columns: " + len(self.columns))
 
     def open_table_menu(self):
         """suggests options for modifying column"""
@@ -146,7 +244,7 @@ class Table:
 
     def remove_column(self):
         """removes a column if exists"""
-        column_index = self.__input_column_index()
+        column_index = self.input_unique_obj_index('columns')
         if column_index is not None:
             column_name = self.columns.pop(column_index).name
             print(column_name + " is removed")
@@ -154,8 +252,8 @@ class Table:
             print("No columns to remove")
 
     def modify_column(self):
-        """removes a column if exists"""
-        column_index = self.__input_column_index()
+        """modify a column if exists"""
+        column_index = self.input_unique_obj_index('columns')
         if column_index is not None:
             print("Modifying column " + self.columns[column_index].name)
         else:
@@ -168,12 +266,18 @@ class Table:
 
 class Column:
     """Creates a new column"""
+    type: str
 
     def __init__(self, name):
         self.name = name
-        self.type = 'number'
-        self.references = []
         self.isUnique = False
+        self.edit_type()
+
+    def describe(self):
+        """describe a column"""
+        print(self.name +
+              " unique: " + str(self.isUnique) +
+              " type: " + [dtype.name for dtype in datatypes if dtype.value == self.type][0])
 
     def open_column_menu(self):
         """suggests options for modifying column"""
@@ -214,7 +318,7 @@ class Column:
                 break
 
     def edit_type(self):
-        """Select dataype for the column"""
+        """Select datatype for the column"""
         self.type = prompt([{
             'name': 'type',
             'type': 'list',
@@ -226,7 +330,9 @@ class Column:
 class Reference:
     """Create foreign key"""
 
-    def __init__(self, name, table_index, column_index):
+    def __init__(self, name, src_tbl_idx, src_col_idx, ref_tbl_idx, ref_col_idx):
         self.name = name
-        self.table_index = table_index
-        self.column_index = column_index
+        self.src_tbl_idx = src_tbl_idx
+        self.src_col_idx = src_col_idx
+        self.ref_tbl_idx = ref_tbl_idx
+        self.ref_col_idx = ref_col_idx
