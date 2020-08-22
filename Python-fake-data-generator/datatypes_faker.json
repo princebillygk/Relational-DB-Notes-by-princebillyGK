@@ -1,0 +1,354 @@
+[
+    {
+        "name":"Address",
+        "key":"address"
+    },
+    {
+        "name":"Am / Pm",
+        "key":"am_pm"
+    },
+    {
+        "name":"Bank Account Number",
+        "key":"bban"
+    },
+    {
+        "name":"Binary",
+        "key":"binary"
+    },
+    {
+        "name":"Boolean",
+        "key":"boolean"
+    },
+    {
+        "name":"Building Number",
+        "key":"building_number"
+    },
+    {
+        "name":"Century",
+        "key":"century"
+    },
+    {
+        "name":"City",
+        "key":"city"
+    },
+    {
+        "name":"Color",
+        "key":"color_name"
+    },
+    {
+        "name":"Color Hex",
+        "key":"hex_color"
+    },
+    {
+        "name":"Color RGB",
+        "key":"rgb_css_color"
+    },
+    {
+        "name":"Company",
+        "key":"company"
+    },
+    {
+        "name":"Country",
+        "key":"country"
+    },
+    {
+        "name":"Country Calling Code",
+        "key":"country_calling_code"
+    },
+    {
+        "name":"Country Code",
+        "key":"country_code"
+    },
+    {
+        "name":"Credit Card Number",
+        "key":"credit_card_number"
+    },
+    {
+        "name":"Credit Card Expire",
+        "key":"credit_card_number"
+    },
+    {
+        "name":"Credit Card Provider",
+        "key":"credit_card_provider"
+    },
+    {
+        "name":"Credit Card Security Code",
+        "key":"credit_card_security_code"
+    },
+    {
+        "name":"Currency Code",
+        "key":"currency_code"
+    },
+    {
+        "name":"Currency Name",
+        "key":"currency_name"
+    },
+    {
+        "name":"Currency Symbol",
+        "key":"currency_symbol"
+    },
+    {
+        "name":"Date YYYY-MM-DD",
+        "key":"date"
+    },
+    {
+        "name":"Date from future",
+        "key":"future_date"
+    },
+    {
+        "name":"Date from past",
+        "key":"past_date"
+    },
+    {
+        "name":"Date of birth",
+        "key":"date_of_birth"
+    },
+    {
+        "name":"Date of this decade",
+        "key":"date_this_decade"
+    },
+    {
+        "name":"Datetime",
+        "key":"date_time"
+    },
+    {
+        "name":"Datetime from future",
+        "key":"future_datetime"
+    },
+    {
+        "name":"Datetime from past",
+        "key":"past_datetime"
+    },
+    {
+        "name":"Datetime of this decade",
+        "key":"date_time_this_decade"
+    },
+    {
+        "name":"Day of month",
+        "key":"day_of_month"
+    },
+    {
+        "name":"Day of Week",
+        "key":"day_of_week"
+    },
+    {
+        "name":"Ean",
+        "key":"ean"
+    },
+    {
+        "name":"Ein",
+        "key":"ein"
+    },
+    {
+        "name":"Email",
+        "key":"email"
+    },
+    {
+        "name":"Email Company",
+        "key":"ascii_company_email"
+    },
+    {
+        "name":"Email Free",
+        "key":"ascii_company_email"
+    },
+    {
+        "name":"Email Company",
+        "key":"ascii_company_email"
+    },
+    {
+        "name":"Email @example.com",
+        "key":"ascii_safe_email"
+    },
+    {
+        "name":"First name",
+        "key":"first_name"
+    },
+    {
+        "name":"First name male",
+        "key":"first_name_male"
+    },
+    {
+        "name":"First name female",
+        "key":"first_name_female"
+    },
+    {
+        "name":"IPV4",
+        "key":"ipv4"
+    },
+    {
+        "name":"Image url",
+        "key":"image_url"
+    },
+    {
+        "name":"Job",
+        "key":"job"
+    },
+    {
+        "name":"Language",
+        "key":"language_name"
+    },
+    {
+        "name":"Language Code",
+        "key":"language_code"
+    },
+    {
+        "name":"Last name",
+        "key":"last_name"
+    },
+    {
+        "name":"Last name male",
+        "key":"last_name_male"
+    },
+    {
+        "name":"Last name female",
+        "key":"last_name_female"
+    },
+    {
+        "name":"Longitude",
+        "key":"longitude"
+    },
+    {
+        "name":"Latitude",
+        "key":"latitude"
+    },
+    {
+        "name":"Latitude, Longitude",
+        "key":"latlng"
+    },
+    {
+        "name":"Licensce Plate",
+        "key":"license_plate"
+    },
+    {
+        "name":"MD5",
+        "key":"md5"
+    },
+    {
+        "name":"Mime Type",
+        "key":"mime_type"
+    },
+    {
+        "name":"Month",
+        "key":"month"
+    },
+    {
+        "month_name":"Month Name",
+        "key":"month_name"
+    },
+    {
+        "name":"MSISDN",
+        "key":"msisdn"
+    },
+    {
+        "name":"Name",
+        "key":"name"
+    },
+    {
+        "name":"Name Female",
+        "key":"name_female"
+    },
+    {
+        "name":"Name Male",
+        "key":"name_male"
+    },
+    {
+        "name":"Password",
+        "key":"password"
+    },
+    {
+        "name":"Phone",
+        "key":"phone_number"
+    },
+    {
+        "name":"Port",
+        "key":"port_number"
+    },
+    {
+        "name":"Postal Code",
+        "key":"postalcode"
+    },
+    {
+        "name":"Random Digit Not Null",
+        "key":"random_digit_not_null"
+    },
+    {
+        "name":"Random Letter",
+        "key":"random_letter"
+    },
+    {
+        "name":"Random Number",
+        "key":"random_number"
+    },
+    {
+        "name":"SHA1",
+        "key":"sha1"
+    },
+    {
+        "name":"SHA256",
+        "key":"sha256"
+    },
+    {
+        "name":"SSN",
+        "key":"ssn"
+    },
+    {
+        "name":"State",
+        "key":"state"
+    },
+    {
+        "name":"State ABBR",
+        "key":"state_abbr"
+    },
+    {
+        "name":"Street Name",
+        "key":"street_name"
+    },
+    {
+        "name":"Street Address",
+        "key":"street_address"
+    },
+    {
+        "name":"Text",
+        "key":"text"
+    },
+    {
+        "name":"Time",
+        "key":"time"
+    },
+    {
+        "name":"Time Zone",
+        "key":"timezone"
+    },
+    {
+        "name":"Time Stamp",
+        "key":"timestamp"
+    },
+    {
+        "name":"Unix Time",
+        "key":"unix_time"
+    },
+    {
+        "name":"UUID",
+        "key":"uuid4"
+    },
+    {
+        "name":"Web url",
+        "key":"url"
+    },
+    {
+        "name":"Word",
+        "key":"word"
+    },
+    {
+        "name":"Year",
+        "key":"year"
+    },
+    {
+        "name":"Year",
+        "key":"year"
+    },
+    {
+        "name":"Zipcode",
+        "key":"zipcode"
+    }
+]

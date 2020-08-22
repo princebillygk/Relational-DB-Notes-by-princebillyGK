@@ -1,16 +1,63 @@
-# This is a sample Python script.
+from PyInquirer import prompt, print_json
+from schema import Schema
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+print("Welcome to database generator")
+print("Created by Prince Billy Graham Karmoker")
 
+# init schema
+schema_name = prompt([{
+    'type': 'input',
+    'name': 'schema',
+    'message': 'Enter the name of the schema'
+}])['schema']
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+db = Schema(name=schema_name)
 
+while True:
+    # get user choice
+    question = {
+        'type': 'list',
+        'name': "choice",
+        'message': "What do you want to do?",
+        'choices': [
+            {
+                'name': 'Add a new table',
+                'value': 'ADD',
+            },
+            {
+                'name': 'Remove a table',
+                'value': 'DEL',
+            },
+            {
+                'name': 'Modify a table',
+                'value': 'EDIT',
+            },
+            {
+                'name': 'list tables',
+                'value': 'LIST',
+            },
+            {
+                'name': 'Generate fake data',
+                'value': 'GEN',
+            },
+            {
+                'name': 'Quit',
+                'value': 'QUIT'
+            }
+        ]
+    }
+    user_choice = prompt([question])['choice']
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    if user_choice == 'QUIT':
+        print("Good bye for now. See you again!")
+        break
+    elif user_choice == 'ADD':
+        db.add_new_table()
+    elif user_choice == 'DEL':
+        db.remove_table()
+    elif user_choice == 'EDIT':
+        db.modify_table()
+    elif user_choice == 'LIST':
+        db.list_tables()
+    else:
+        db.generate()
