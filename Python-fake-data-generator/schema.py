@@ -19,6 +19,13 @@ class DBItems:
             }
             return prompt([question])['table_index']
 
+    def check_duplicate_name_item(self, ls_name, name):
+        for item in getattr(self, ls_name):
+            if item.name == name:
+                print("A table named %s already exists" % name)
+                return True
+        return False
+
 
 class Schema(DBItems):
     """Creates a schema for storing database columns"""
@@ -30,6 +37,7 @@ class Schema(DBItems):
         self.references = []
 
     def open_schema_menu(self):
+        """Access to db functions from this menu"""
         while True:
             # get user choice
             question = {
@@ -50,6 +58,10 @@ class Schema(DBItems):
                         'value': 'EDIT',
                     },
                     {
+                        'name': 'list tables',
+                        'value': 'LIST',
+                    },
+                    {
                         'name': 'Add a new reference',
                         'value': 'ADDR',
                     },
@@ -58,8 +70,8 @@ class Schema(DBItems):
                         'value': 'DELR',
                     },
                     {
-                        'name': 'list tables',
-                        'value': 'LIST',
+                        'name': 'List Reference',
+                        'value': 'LISTR',
                     },
                     {
                         'name': 'Generate fake data',
@@ -83,6 +95,8 @@ class Schema(DBItems):
                 self.modify_table()
             elif user_choice == 'LIST':
                 self.list_tables()
+            elif user_choice == 'LISTR':
+                self.list_reference()
             else:
                 print("Good bye for now. See you again!")
                 break
@@ -90,24 +104,26 @@ class Schema(DBItems):
     def add_new_table(self):
         """Create a new table in the schema"""
         # input table name
-        answer = prompt({
-            'type': 'input',
-            'name': 'table',
-            'message': 'Input table name'
-        }, {
-            'type': 'confirm',
-            'name': 'is_id_included',
-            'message': 'Do you want to include an id field?'
-        })
+        answer = prompt([
+            {
+                'type': 'input',
+                'name': 'table',
+                'message': 'Input table name'
+            },
+            {
+                'type': 'confirm',
+                'name': 'is_id_included',
+                'message': 'Do you want to include an id field?'
+            }]
+        )
 
-        table_name = answer.table
+        table_name = answer['table']
         # check if table name already exists
-        for table in self.tables:
-            if table.name == table_name:
-                print("A table named %s already exists" % table_name)
-                return
+        if self.check_duplicate_name_item('tables', table_name):
+            print("Table already exists with this name")
+            return
         # creates a table
-        self.tables.append(Table(table_name, answer.is_id_included))
+        self.tables.append(Table(table_name, answer['is_id_included']))
 
     def remove_table(self):
         """removes a table if exists"""
@@ -135,15 +151,14 @@ class Schema(DBItems):
             'message': 'Input reference name'
         })['reference']
         # check if reference name already exists
-        for reference in self.references:
-            if reference.name == reference_name:
-                print("A reference named %s already exists" % reference_name)
-                return
+        if self.check_duplicate_name_item('references', reference_name):
+            print("Reference already exists with this name")
+            return
         # creates a reference
         print("Source")
         src_tbl_idx = self.input_unique_obj_index('tables')
         src_col_idx = self.tables[src_tbl_idx].input_unique_obj_index('columns')
-        print("REference")
+        print("Reference")
         ref_tbl_idx = self.input_unique_obj_index('tables')
         ref_col_idx = self.tables[ref_tbl_idx].input_unique_obj_index('columns')
 
@@ -171,6 +186,10 @@ class Schema(DBItems):
         for table in self.tables:
             table.describe()
 
+    def list_reference(self):
+        for ref in self.references:
+            ref.describe()
+
 
 class Table(DBItems):
     """creates a new column"""
@@ -183,7 +202,8 @@ class Table(DBItems):
         self.open_table_menu()
 
     def describe(self):
-        print(self.name + " id: " + str(self.is_id) + " columns: " + len(self.columns))
+        print(self.name + " id: " + str(self.is_id) +
+              " columns: " + len(self.columns))
 
     def open_table_menu(self):
         """suggests options for modifying column"""
@@ -235,10 +255,9 @@ class Table(DBItems):
             'message': 'Input column name'
         })['column']
         # check if column name already exists
-        for column in self.columns:
-            if column.name == column_name:
-                print("A column named %s already exists" % column_name)
-                return
+        if self.check_duplicate_name_item('columns', column_name):
+            print("Column already exists with this name")
+            return
         # creates a column
         self.columns.append(Column(column_name))
 
@@ -277,7 +296,9 @@ class Column:
         """describe a column"""
         print(self.name +
               " unique: " + str(self.isUnique) +
-              " type: " + [dtype.name for dtype in datatypes if dtype.value == self.type][0])
+              " type: " +
+              [dtype.name for dtype in datatypes
+               if dtype.value == self.type][0])
 
     def open_column_menu(self):
         """suggests options for modifying column"""
@@ -330,9 +351,17 @@ class Column:
 class Reference:
     """Create foreign key"""
 
-    def __init__(self, name, src_tbl_idx, src_col_idx, ref_tbl_idx, ref_col_idx):
+    def __init__(self, name,
+                 src_tbl_idx, src_col_idx,
+                 ref_tbl_idx, ref_col_idx):
         self.name = name
         self.src_tbl_idx = src_tbl_idx
         self.src_col_idx = src_col_idx
         self.ref_tbl_idx = ref_tbl_idx
         self.ref_col_idx = ref_col_idx
+
+    def describe(self):
+        """describe a reference"""
+        print(self.name +
+              "%s.%s => %s.%s" % self.src_tbl_idx % self.src_col_idx
+              % self.ref_tbl_idx % self.ref_col_idx)

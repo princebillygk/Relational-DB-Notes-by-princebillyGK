@@ -2,13 +2,36 @@
 
 ## Variable Types
 
-**integer: ** Stores integer values
+**integer:** Stores integer values
 
 **float:** Stores float values
 
-**boolean: ** Boolean values either `True` or `False`
+**boolean:** Boolean values either `True` or `False`
 
-**string: ** Stores strings
+**string:** Stores strings
+
+## Global Variable
+
+if we want to read a global variable inside a function its ok
+
+```python
+x = "awesome"
+def myfunc():
+  print("Python is " + x)
+myfunc() # awesome
+```
+
+but if we try to modify a global variable inside a function we need to us global keyword 
+
+```python
+x = "awesome"
+def myfunc():
+  global x
+  x = "hello world"
+  
+myfunc()
+print("Python is " + x) # hello world
+```
 
 
 
@@ -49,7 +72,7 @@ python = python[0] #returns 'P'
 negative index will start counting from last. index -1 will return the last element
 
 ```python
-python[-1] /returns 'n'
+python[-1] # returns 'n'
 ```
 
 ### String slicing
@@ -66,13 +89,15 @@ str[:] 		 #returns full string
 ### Check weather a string contain in another string
 
 ```python
-type here"billy" in "prince in billy graham karmoker" #returns true
+"billy" in "prince in billy graham karmoker" #returns true
 "meow" in "prince in billy" #returns false
 ```
 
 ### Define multi line string
 
-We can define multi-line string using three """ double quotation mark.
+We can define multi-line string using three """ double quotation mark. can be used to write doc.
+
+other name doc-string
 
 ```python
 """
@@ -92,7 +117,7 @@ len(str)
 ```python
 "This is a string %s." % "prince"
 "This is a number %d." % 34
-"This is a float %f" % 34.3
+"My name is %s I am %d" % ("Prince", 22)
 ```
 
 
@@ -125,6 +150,14 @@ my_foods = ['Potato mash', 'Pizza', 'Bakon', 'Banana']
 + friend_foods = my_foods[:] #use slice operator to make a real copy
 ```
 
+### List Comprehension
+
+```python
+cubes = [i ** 3 for i in range(1, 11)]
+evens = [i for i in range(1, 11) if i % 2 == 0]
+odd_enen = [(i, "even") if i % 2 == 0 else (i, "odd") for i in range(1, 11) ]
+```
+
 
 
 ## Tuples
@@ -143,26 +176,26 @@ oneValue = ("me",)
 
 
 
-## Dictonary
+## Dictionary
 
-Similar to List but we access it using key rather than index
+Similar to list but we access it using key rather than index
 
 ```python
 dct = {'key1' : "value1", 'key2' : "value2"}
 ```
 
-Return all keys & values dictonary:
+Return all keys & values dictionary:
 
 ```python
-dct.key(); #return keys
+dct.keys(); #return keys
 dct.values(); #return values	
 ```
 
 
 
-### In Keyword with List, Tupple and Values
+### In Keyword with List, Tuple and Values
 
-Check weather a value is in list or tupple
+Check weather a value is in list or tuple
 
 ```python
 values = [43, 5, 2]
@@ -181,6 +214,27 @@ person = {
 }
 'lastname' in person #True
 ```
+
+
+
+### Array/ Tuple Destructing:
+
+```
+foo, boo, *aoo= ['FOO', 'BOO', 'MOO', 'GOO', 'LOO']
+print(foo)
+print(boo)
+print(aoo)
+```
+
+**Output**:
+
+```python
+FOO
+BOO
+['MOO', 'GOO', 'LOO']
+```
+
+
 
 ### IS and NOT Operator
 
@@ -207,7 +261,7 @@ def describe_pet(animal_type, pet_name):
 describe_pet("bird", "Cute Pie");
 
 #explicitly specifing the argement in any order
-describe_pet(pet_name = "Meo", animal_type="Cat")		
+describe_pet(pet_name = "Meo", animal_type="Cat")
 ```
 
 #### Arbitrary number of argument
@@ -222,7 +276,6 @@ def make_pizza(size, *topings):
     
 make_pizza(12, 'cheese', 'sause', 'meoneese');
 make_pizza(5)
-
 ```
 
 #### Arbitrary number of keyword argument
@@ -253,6 +306,15 @@ Example
 def myfunc(positional_arg1, positional_arg2, *arb, **key_arb):
     ...
 ```
+
+### Lambda function
+
+```python
+lambda: "hello world" # a function that returns hello world
+lambda x, y: x * y # a function that takes argument x, y and return x * y
+```
+
+
 
 ## Import
 
@@ -349,6 +411,21 @@ else:
    print( contents)  #do something if no error occured
 ```
 
+## Ternary condition
+
+```python
+age = 23
+stmt = "You can watch this movie" if age > 18 else "You cannot watch this movie"
+```
+
+## IS
+
+```python
+# check it a object refers to same object and the value is also same 
+age = 1
+if age is 1: # same as if (age === 1)
+```
+
 
 
 ## Some important functions and different uses:
@@ -365,47 +442,65 @@ str.lower() #converts string to lowercase
 str.strip() #removes whitespaces arround the string
 str.lstrip() #removes whitespaces only from left sides
 str.rstrip() #removes whitespaces only from right side
+
+#checker
+str.isdigit() # check if str is digit "4545.34" -> False "3432" -> True "err324" -> False
+str.isalpha() # checks if a string contains only letters
+
+# join array of string
+"seperator".join(["hello", "world"]) # "Helloseperatorworld"
 ```
 
 ### list
 
 ```python
-##add item
+## add item
 ls.append(item); #adds an item to the end of list 
 ls.insert(0, item); #inserts an item at any position of the string
 
 
-##remove an item 
+## remove an item 
 del ls[2] #removes the item at index 2
 last_item = ls.pop() #removes and returns the last item from list
 last_item.remove('value') #remove an item using its value
 
-##sorting
-#permenent sorting
+## sorting
+# permenent sorting
 ls.sort() #permenent sort in ascending order
 ls.sort(reverse = True) #permenent sort in ddscending order
 #temporary sort
 sorted_ls = sorted(carsp)
 sorted_ls = sorted(cars, reverse = true)
 
-##looping throw a list 
+## looping throw a list 
 for magician in magicians:
     print (magician) #prints all magician in magicians
+## loop with index value
+for index, magician in enumarate(magicians):
+    print (magician)#prints all magician in magicians
+    print(index) #prints the index
 
     
-##statistical functions
+## statistical functions
 min(ls) #prints the minmum in a list of same catagory items
 max(ls) #prints the maximum in a list of same catagory items
 sum(ls) #prints the sum from a number list
 
 
-##list comprehension using range
+## list comprehension using range
 cubes = []
 for i in range(1, 11):
     cubes.append(i ** 3)
-"We can simplify this in one line"
-cubes = [i ** 3 for i in range(1, 11)]
 
+    
+## filter function
+a = [1,4, 5]
+b = [1,5]
+c = list(filter(lambda x: x not in b, a)) # [4]
+
+## reduce function
+nubmers = [2, 34, 5, 33, 2, 2]
+product_of_all_numbers = reduce(lambda x, y: x * y, numbers)
 ```
 
 
@@ -415,7 +510,7 @@ cubes = [i ** 3 for i in range(1, 11)]
 ```python
 a_range_of_4_items = range(4) #returns a range of 4 items
 myrange = range(i, j) #contains i to j-1 element
-myrange = range(2, 100, 2) #contains all even number range(start, end-1, ste p)
+myrange = range(2, 100, 2) #contains all even number range(start, end-1, step)
 ```
 
 
@@ -445,8 +540,6 @@ with open("test.py", "r") as text_file:
 	lines = text_file.readlines();
 ```
 
-
-
 #### Writing lines
 
 ```python
@@ -464,5 +557,14 @@ with open("test.txt", "w") as text_file:
 "w" #write mode
 "a" #append mode
 "r+" #read and append mode 
+```
+
+
+
+## Mathematical Functions
+
+```python
+list1 = [1, 2, 3]
+math.prod(list1) # return 1 * 2 * 3fr
 ```
 
